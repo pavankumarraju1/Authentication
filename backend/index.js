@@ -3,6 +3,7 @@ import 'dotenv/config'
 import express from "express";
 import cookieParser from 'cookie-parser';
 import cors from "cors"
+import path from "path"
 
 import connection from './connection.js';
 import userRouter from './routes/userRoutes.js';
@@ -18,6 +19,7 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
+app.use(express.static(path.resolve('./public')))
 
 app.use('/auth',userRouter)
 

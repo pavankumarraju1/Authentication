@@ -40,7 +40,7 @@ const loginController = asyncHandler(async(req, res) => {
         }
         if(result){
             const Token = createToken(userData)
-            res.cookie("token",Token,{httpOnly:true,maxAge:360000})
+            res.cookie("token",Token,{httpOnly:true})
             return res.json({status:true,message:"logged in successfully"})
         }
         else{
@@ -106,11 +106,23 @@ const logoutController = (req,res)=>{
     return res.json({status:true})
 }
 
+const getData = asyncHandler(async (req, res) => {
+    const userData = await user.find({});
+    //console.log(userData)
+    if(!userData){
+        return res.json({status:false,message:"no data found"})
+    }
+    else{
+        return res.json({status:true,details:userData})
+    }
+})
+
 export {
     signupController,
     loginController,
     forgotPasswordController,
     resetPasswordController,
     verifyToken,
-    logoutController
+    logoutController,
+    getData
 }

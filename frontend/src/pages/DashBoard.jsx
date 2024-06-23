@@ -3,8 +3,20 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 function DashBoard() {
+    axios.defaults.withCredentials = true;
     const nav = useNavigate()
     
+    useEffect(() => {
+        axios.get("http://localhost:5001/auth/verify").then((res) => {
+            if (res.data.status) {
+                console.log(res.data.message)
+            }
+            else {
+                nav('/')
+            }
+        })
+    }, [])
+
     function handleClick(){
         axios.get("http://localhost:5001/auth/logout").then((res)=>{
             if(res.data.status){
@@ -17,17 +29,7 @@ function DashBoard() {
             console.log(err)
         })
     }
-        useEffect(() => {
-            axios.get("http://localhost:5001/auth/verify").then((res) => {
-                if (res.data.status) {
-                    console.log(res.data.message)
-                }
-                else {
-                    nav('/')
-                }
-            })
-        }, [])
-    
+       
   return (
     <div>
     <h1>dashboard</h1>
